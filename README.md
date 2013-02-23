@@ -1,24 +1,16 @@
-Tagging files with Alfred and Openmeta. 
+Tagging files with Alfred 2 and Openmeta. 
 
-It's working.
-It's ugly. 
+# Usage #
 
-# Usage
+- select files to tag using *Select files to tag* file action
+- Alfred will reopen itself with *tag* script filter and show selected files with their tags
+- then you can type tags to add or remove from files
+- to add press ↩, to remove ⌥+↩	
+- you can check tags of file using *Show tags* file action
+- use *clearselection* keyword to clear selection(!)
 
-## Tagging
-Find file(s) with Alfred, run *Select files to tag* file action, type tags. 
+Workflow no longer uses clipboard to store selected files and obeys workflow best practices.  It's better than before.
 
-Workflow **copies files paths to clipboard**, then opens Alfred and types *tag* keyword using AppleScript. 
-That's that ugly part. 
+# Requirements #
 
-## Showing tags
-Find file, run *Show tags* file action. 
-
-## Searching
-Search for files tagged with given tag using tags keyword. 
-
-# Requirements
-- Openmeta cli is in /usr/bin
-- path to Alfred is /Applications/Alfred 2.app
-
-(ofc. that can be modified)
+- installed openmeta, path to it can be changes in openmeta.py
