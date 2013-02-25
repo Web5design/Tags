@@ -6,17 +6,6 @@
 	<string>OpenmetaTags</string>
 	<key>connections</key>
 	<dict>
-		<key>0F0218D4-847C-4BE2-8B26-13AB54121FAA</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>C3A4B671-8552-49FF-964D-B7F777772ACF</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
-		</array>
 		<key>1D1AB04D-FD20-49CA-A987-05F299F5B9B8</key>
 		<array>
 			<dict>
@@ -36,6 +25,8 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>2D5B1ABF-A90E-4F32-A573-530503D441EB</key>
+		<array/>
 		<key>5C8855ED-BCDE-41B1-8936-C35B1B88765E</key>
 		<array>
 			<dict>
@@ -52,7 +43,15 @@
 				<key>modifiers</key>
 				<integer>524288</integer>
 				<key>modifiersubtext</key>
-				<string>Remove tags - {query} - from all files on the list</string>
+				<string>Remove tags from file</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>F0A5B233-9165-43BF-9C7C-E902A73BB03D</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Rremove file from selection</string>
 			</dict>
 		</array>
 		<key>70287CC0-6579-4F08-99B3-65A22A6FDFD3</key>
@@ -66,6 +65,8 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>82690111-A4C5-4E8C-87E4-E33E8A00B9EC</key>
+		<array/>
 		<key>998C7D24-A204-43A3-A849-7C64A7E906AC</key>
 		<array>
 			<dict>
@@ -78,6 +79,8 @@
 			</dict>
 		</array>
 		<key>C47241BF-D622-4C90-920C-722333096713</key>
+		<array/>
+		<key>F0A5B233-9165-43BF-9C7C-E902A73BB03D</key>
 		<array/>
 		<key>FB9327A8-0D44-4D7F-AC32-39DEAD39E38A</key>
 		<array>
@@ -104,26 +107,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>escaping</key>
-				<integer>63</integer>
-				<key>script</key>
-				<string>import fileslist as f
-from openmeta import remove_tags
-paths = f.to_list()
-for path in paths:
-	remove_tags(path, """{query}""")
-f.clear()</string>
-				<key>type</key>
-				<integer>3</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>2D5B1ABF-A90E-4F32-A573-530503D441EB</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>acceptsmulti</key>
 				<true/>
 				<key>filetypes</key>
@@ -135,22 +118,6 @@ f.clear()</string>
 			<string>alfred.workflow.trigger.action</string>
 			<key>uid</key>
 			<string>FB9327A8-0D44-4D7F-AC32-39DEAD39E38A</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>0</integer>
-				<key>script</key>
-				<string>import fileslist as f
-f.clear()</string>
-				<key>type</key>
-				<integer>3</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>C3A4B671-8552-49FF-964D-B7F777772ACF</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -169,14 +136,11 @@ end alred_script</string>
 			<key>config</key>
 			<dict>
 				<key>escaping</key>
-				<integer>63</integer>
+				<integer>0</integer>
 				<key>script</key>
-				<string>import fileslist as f
-from openmeta import add_tags
-paths = f.to_list()
-for path in paths:
-	add_tags(path, """{query}""")
-f.clear()</string>
+				<string>from dispatch import dispatch
+q = """{query}"""
+print dispatch(q)</string>
 				<key>type</key>
 				<integer>3</integer>
 			</dict>
@@ -278,19 +242,18 @@ print '\n'.join([tags_to_str(path) for path in paths])</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>clearselection</string>
-				<key>text</key>
-				<string>Clear files selected to tag</string>
-				<key>withspace</key>
-				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>from dispatch import dispatch
+dispatch("""{query}""", modifier='fn')</string>
+				<key>type</key>
+				<integer>3</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>0F0218D4-847C-4BE2-8B26-13AB54121FAA</string>
+			<string>F0A5B233-9165-43BF-9C7C-E902A73BB03D</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -334,16 +297,27 @@ print '\n'.join([tags_to_str(path) for path in paths])</string>
 			<key>uid</key>
 			<string>70287CC0-6579-4F08-99B3-65A22A6FDFD3</string>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>from dispatch import dispatch
+dispatch("""{query}""", modifier='alt')</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>2D5B1ABF-A90E-4F32-A573-530503D441EB</string>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
-		<key>0F0218D4-847C-4BE2-8B26-13AB54121FAA</key>
-		<dict>
-			<key>ypos</key>
-			<real>710</real>
-		</dict>
 		<key>1D1AB04D-FD20-49CA-A987-05F299F5B9B8</key>
 		<dict>
 			<key>ypos</key>
@@ -367,7 +341,7 @@ print '\n'.join([tags_to_str(path) for path in paths])</string>
 		<key>70287CC0-6579-4F08-99B3-65A22A6FDFD3</key>
 		<dict>
 			<key>ypos</key>
-			<real>590</real>
+			<real>710</real>
 		</dict>
 		<key>82690111-A4C5-4E8C-87E4-E33E8A00B9EC</key>
 		<dict>
@@ -377,7 +351,7 @@ print '\n'.join([tags_to_str(path) for path in paths])</string>
 		<key>8AF8A8FD-1E6C-4718-8276-298192FE45F9</key>
 		<dict>
 			<key>ypos</key>
-			<real>590</real>
+			<real>710</real>
 		</dict>
 		<key>998C7D24-A204-43A3-A849-7C64A7E906AC</key>
 		<dict>
@@ -389,15 +363,15 @@ print '\n'.join([tags_to_str(path) for path in paths])</string>
 			<key>ypos</key>
 			<real>140</real>
 		</dict>
-		<key>C3A4B671-8552-49FF-964D-B7F777772ACF</key>
-		<dict>
-			<key>ypos</key>
-			<real>710</real>
-		</dict>
 		<key>C47241BF-D622-4C90-920C-722333096713</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>F0A5B233-9165-43BF-9C7C-E902A73BB03D</key>
+		<dict>
+			<key>ypos</key>
+			<real>580</real>
 		</dict>
 		<key>FB9327A8-0D44-4D7F-AC32-39DEAD39E38A</key>
 		<dict>

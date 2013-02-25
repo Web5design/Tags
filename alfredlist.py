@@ -1,15 +1,17 @@
 from cgi import escape
 from uuid import uuid1
+from config import pickle_newline_substitution
+import pickle
 
 
 class AlfredItemsList(object):
     def __init__(self, items=None):
         self.items = items or []
         self.pattern = \
-            '<item arg="{0}" uid="{5}" valid="{3}">"' + \
-            '<title>{1}</title>' + \
-            '<subtitle>{2}</subtitle>' + \
-            '<icon>icon.png</icon>' + \
+            '<item arg="{arg}" uid="{uid}" valid="{valid}">"' + \
+            '<title>{title}</title>' + \
+            '<subtitle>{subtitle}</subtitle>' + \
+            '{icon}' + \
             '</item>'
 
     def append(
@@ -18,23 +20,26 @@ class AlfredItemsList(object):
             title,
             subtitle,
             valid='yes',
-            icon='iconT',
+            icon='iconw',
             uid=None
         ):
-        uid = uid or str(uuid1())  # use None it to preserve order of items
+        """Use uid = None to preserve order of items"""
+        uid = uid or str(uuid1())
+        # using uuid is little hacky, there is no other way to
+        # prevent alfred from reordering items
         self.items.append(
-            (arg, escape(title), escape(subtitle), valid, icon, uid)
+            (pickle.dumps(arg).replace('\n', pickle_newline_substitution), escape(title), escape(subtitle), valid, icon, uid)
             )
 
     def __str__(self):
         items = "".join(
             [self.pattern.format(
-                arg,
-                escape(title),
-                escape(subtitle),
-                valid,
-                icon,
-                uid
+                arg=arg,
+                title=escape(title),
+                subtitle=escape(subtitle),
+                valid=valid,
+                icon=icon,
+                uid=uid
                 ) for arg, title, subtitle, valid, icon, uid in self.items]
             )
         return '<items>' + items + '</items>'
