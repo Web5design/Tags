@@ -83,7 +83,7 @@ def tags_to_str(paths, include_paths=True):
     prefix = ''
     if include_paths:
         prefix = ", ".join(
-            # include containig folder for better granularity
+            # include containig folder for better granulaity
             ['/'.join(path.split('/')[-2:]) for path in paths]
         ) + ': '
     return prefix + (" ".join(tags) if tags else '-no tags-')

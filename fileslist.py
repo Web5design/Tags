@@ -1,14 +1,12 @@
 """
 module provides functions to store and retrieve paths of
 files selected to tagging
-
-paths are stored as tab-separated list in file in
-'~/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data/OpenmetaTags/selection
 """
 
-from openmeta import tags_to_str
+from openmeta import get_tags
 from alfredlist import AlfredItemsList
 import os
+
 
 dir_path = '~/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data/OpenmetaTags/'
 dir_path = os.path.expanduser(dir_path)
@@ -53,7 +51,7 @@ def clear():
         f.write('')
 
 
-def to_alfred_xml(arg):
+def to_alfred_xml(arg, show_tags=True):
     items = set()
     with open(full_path, 'r') as f:
         text = f.read()
@@ -76,11 +74,18 @@ def to_alfred_xml(arg):
         subtitle=arg,
         icon='<icon>icon_rem.png</icon>'
     )
+    if show_tags:
+        tags = {}
+        all_tags = set()
+        for item in items:
+            t = get_tags(item)
+            tags[item] = " ".join(t) if t else "-no tags-"
+            all_tags.update(t)
 
     al.append(
         arg=(arg, '--clear tags'),
         title='Clear all tags',
-        subtitle=tags_to_str(items, False),
+        subtitle=" ".join(all_tags) if show_tags else "",
         icon='<icon>icon_rem.png</icon>'
     )
     al.append(
@@ -95,7 +100,7 @@ def to_alfred_xml(arg):
         al.append(
             arg=(arg, item),
             title='/'.join(item.split('/')[-2:]),
-            subtitle=tags_to_str(item, False),
+            subtitle=tags[item] if show_tags else "",
             icon='<icon type="fileicon">{0}</icon>'.format(item))
     return al
 
